@@ -50,10 +50,10 @@ class peakFind(object):
             return self
 
         elif arr[m-1] > arr[m]:
-            return self.peak1D(arr, start, m-1)
+            return self.peak1D(arr, start, m)
 
         elif arr[m+1] > arr[m]:
-            return self.peak1D(arr, m+1, end)
+            return self.peak1D(arr, m, end)
 
 
     def peak2D(self, mat, startj, endj):
@@ -73,8 +73,18 @@ class peakFind(object):
         self : object
 
         """
-        jm = floor((endj - startj)/2)
+        jm = startj + floor((endj - startj)/2)
+        print("The startj is: ", startj)
+        print("The endj is: ", endj)
+        print("The jm is: ", jm)
         igmx = self.GlobMax([row[jm] for row in mat])
+        print("the igmx is: ", igmx)
+
+        if (jm == 0 | jm == endj):
+            self.value_ = mat[igmx][jm]
+            self.i_ = igmx
+            self.j_ = jm
+            return self
 
         if mat[igmx][jm-1] <= mat[igmx][jm] >= mat[igmx][jm+1]:
             self.value_ = mat[igmx][jm]
@@ -83,20 +93,17 @@ class peakFind(object):
             return self
 
         elif mat[igmx][jm-1] > mat[igmx][jm]:
-            return self.peak2D([row[startj:jm] for row in mat],
-                startj, jm-1)
+            return self.peak2D(mat, startj, jm)
 
         elif mat[igmx][jm+1] > mat[igmx][jm]:
-            return self.peak2D([row[jm+1:] for row in mat],
-                jm+1, endj)
+            return self.peak2D(mat, jm, endj)
 
     def GlobMax(self, arr):
-        imx = self.start
+        imx = 0
         for i in range(len(arr)-1):
-            if arr[i] < arr[i+1]:
-                imx = i+1
+            if arr[imx] < arr[i]:
+                imx = i
         return imx
-
 
 if __name__ == '__main__':
     peakFind()
