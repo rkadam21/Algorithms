@@ -65,4 +65,3 @@ class AdalineGD(object):
         return np.where(self.activation(X) >= 0.0, 1, -1)
 if __name__ == "__main__":
     AdalineGD()
-    
